@@ -392,6 +392,8 @@ pmStatus particleSystemDataDistribution_06(pmTaskInfo pTaskInfo, pmDeviceInfo pD
 	int index_mem_particles  = 5;
 	int index_mem_tdata  	 = 6;
 
+	int index_mem_randstates = 7;
+
 	/*READ*/
 	lSubscriptionInfo.offset = subtask_id * (1+MAX_PARTICLES_PER_CHUNK) * sizeof(int);
 	lSubscriptionInfo.length = (1+MAX_PARTICLES_PER_CHUNK) * sizeof(int);
@@ -486,9 +488,12 @@ pmStatus particleSystemDataDistribution_06(pmTaskInfo pTaskInfo, pmDeviceInfo pD
 
 	//***************************************
 
-//lSubscriptionInfo.offset = 0;
-//lSubscriptionInfo.length = sizeParticles;
-//pmSubscribeToMemory(pTaskInfo.taskHandle, pDeviceInfo.deviceHandle, pSubtaskInfo.subtaskId, pSubtaskInfo.splitInfo, index_mem_particles, READ_SUBSCRIPTION, lSubscriptionInfo);
+	if(SERIAL_MODE == 0 && HOST_MODE == 0) {
+		/*READ-WRITE*/
+		lSubscriptionInfo.offset = 0;
+		lSubscriptionInfo.length = sizeRandstates;
+		pmSubscribeToMemory(pTaskInfo.taskHandle, pDeviceInfo.deviceHandle, pSubtaskInfo.subtaskId, pSubtaskInfo.splitInfo, index_mem_randstates, READ_WRITE_SUBSCRIPTION, lSubscriptionInfo);
+	}
 
 #ifdef BUILD_CUDA
 	// Set CUDA Launch Configuration
@@ -1678,6 +1683,10 @@ bool StageParallelTask_n(int numSubtasks, size_t numElemsPerSubtask, pmCallbackH
 		lTaskMem[mem_count++] = {handle_mem_list[INDEX_MEM_QUEUE], READ_WRITE, SUBSCRIPTION_OPTIMAL, true};  	/*READ-WRITE*/
 		lTaskMem[mem_count++] = {handle_mem_list[INDEX_MEM_PARTICLES], READ_WRITE, SUBSCRIPTION_OPTIMAL, true}; /*READ-WRITE*/
 		lTaskMem[mem_count++] = {handle_mem_list[INDEX_MEM_TDATA], READ_ONLY, SUBSCRIPTION_OPTIMAL};		/*READ*/
+
+		if(SERIAL_MODE == 0 && HOST_MODE == 0) {
+			lTaskMem[mem_count++] = {handle_mem_list[INDEX_MEM_RANDSTATES], READ_WRITE, SUBSCRIPTION_OPTIMAL, true}; /*READ-WRITE*/
+		}
 	}
 	else if(taskType == 8) {
 		lTaskMem[mem_count++] = {handle_mem_list[INDEX_MEM_CHUNKGRID], READ_WRITE, SUBSCRIPTION_OPTIMAL, true};	/*READ-WRITE*/
