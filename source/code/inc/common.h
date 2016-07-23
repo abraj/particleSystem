@@ -7,9 +7,9 @@
 #define SERIAL_MODE 0	// set ST_MAX 1, mpirun -n 1
 #define HOST_MODE 1
 
-#define ST_MAX 1	// 1 for serial mode; otherwise 8 or 16
+#define ST_MAX 8	// 1 for serial mode; otherwise 8 or 16
 
-#define MAX_PARTICLES_NUM 1024*16	// should be a power of 2 (Is it?)
+#define MAX_PARTICLES_NUM 1024*1024
 #define X_FACTOR 2		// expansion factor for reserve space				// GOOD: 2
 
 #define MAX_NEIB_CELLS 27	// 3 x 3 x 3
@@ -66,11 +66,8 @@
 #define MAX_V 10.0
 #define EXPLOSION_SPEED 3.0
 
-#define DT 0.5
-#define NUM_ITERATIONS 1
-
-//#define DT 0.05
-//#define NUM_ITERATIONS 1000
+#define DT 0.05
+#define NUM_ITERATIONS 10
 
 /*----------------------------------------------------*/
 

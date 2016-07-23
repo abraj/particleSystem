@@ -1840,7 +1840,7 @@ double DoParallelProcess(int argc, char** argv, int pCommonArgs, pmCallbackHandl
 
 	//-----------------------------
 
-	for(int niter=0; niter<1; niter++) 
+	for(int niter=0; niter<NUM_ITERATIONS; niter++) 
 	{
 
 	double time0 = getCurrentTimeInSecs();
@@ -1924,7 +1924,7 @@ double DoParallelProcess(int argc, char** argv, int pCommonArgs, pmCallbackHandl
 	//-----------------------------
 
 	double time3 = getCurrentTimeInSecs();
-	printf(">>>>>>>>>>> Time per iteration (sec): \n%f\n%f\n%f\n%f\n\n\n\n", time3-time0, time1-time0, time2-time1, time3-time2);
+	printf(">>>>>>>>>>> Execution time of iteration (sec): \n%f\n%f\n%f\n%f\n\n\n\n", time3-time0, time1-time0, time2-time1, time3-time2);
 	}
 
 	double lEndTime = getCurrentTimeInSecs();
